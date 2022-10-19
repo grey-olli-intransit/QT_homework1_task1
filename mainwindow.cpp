@@ -21,22 +21,22 @@ void MainWindow::on_lineEdit_textEdited(const QString &arg1)
 {
     a = ui->lineEdit->text();
 
-    this->A = a::toDouble();
+    this->A = a.toDouble();
 
 }
 
 
 void MainWindow::on_lineEdit_2_textEdited(const QString &arg1)
 {
-    double b = ui->lineEdit->text::toDouble();
-    this->B = b;
+    b = ui->lineEdit->text();
+    this->B = b.toDouble();
 }
 
 
 void MainWindow::on_lineEdit_3_textEdited(const QString &arg1)
 {
-    double c = ui->lineEdit->text::toDouble();
-    this->C = c;
+    c = ui->lineEdit->text();
+    this->C = c.toDouble();
 }
 
 // эта функция взята из Си, из дз что я когда-то делал. Теперь это С++ метод
@@ -75,15 +75,18 @@ void MainWindow::on_pushButton_clicked()
 {
     double root1, root2;
     qreal root1_aprox, root2_aprox;
-    QString root1_str, root2_str;
+    QString root1_str, root2_str, no_roots;
+    qreal & ssilka_root1_aprox = root1_aprox;
     // это основной метод в котором идёт обработка результатов рассчета
     int retval = calcSquareEq(A,B,C,&root1,&root2);
     if (retval == -1) {
-        ui->lineEdit_5->text("Решений нет/Бессмысленно");
+       no_roots = "Решений нет/Бессмысленно";
+        ui->lineEdit_5->text().clear();
+        ui->lineEdit_5->text().append(no_roots);
     }
     else if (retval == 0) {
         root1_aprox = (qreal) root1;  // qreal эквивалент double
-        root1_str = QTextStream(&root1_aprox);
+        root1_str = QTextStream(ssilka_root1_aprox);
         ui->lineEdit_6->text(root1_str);
         ui->lineEdit_4->text("только один корень");
     }

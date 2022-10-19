@@ -34,7 +34,7 @@ private:
     Ui::MainWindow *ui;
     double A;
     double B;
-    double c;
+    double C;
     int calcSquareEq(int a, int b, int c, double* x1, double* x2);
 };
 #endif // MAINWINDOW_H
