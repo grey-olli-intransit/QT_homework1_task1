@@ -76,7 +76,7 @@ void MainWindow::on_pushButton_clicked()
     double root1, root2;
     qreal root1_aprox, root2_aprox;
     QString root1_str, root2_str, no_roots;
-    qreal & ssilka_root1_aprox = root1_aprox;
+
     // это основной метод в котором идёт обработка результатов рассчета
     int retval = calcSquareEq(A,B,C,&root1,&root2);
     if (retval == -1) {
@@ -85,25 +85,31 @@ void MainWindow::on_pushButton_clicked()
         ui->lineEdit_5->text().append(no_roots);
     }
     else if (retval == 0) {
-        root1_aprox = (qreal) root1;  // qreal эквивалент double
-        root1_str = QTextStream(ssilka_root1_aprox);
-        ui->lineEdit_6->text(root1_str);
-        ui->lineEdit_4->text("только один корень");
+        root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
+        ui->lineEdit_6->text().append(root1_str);
+        ui->lineEdit_4->text().append("только один корень");
     }
     else if(retval == 1) {
-        root1_aprox = (qreal) root1;  // qreal эквивалент double
-        root1_str = QTextStream(&root1_aprox);
-        ui->lineEdit_6->text(root1_str);
-        root2_aprox = (qreal) root2;  // qreal эквивалент double
-        root2_str = QTextStream(&root2_aprox);
-        ui->lineEdit_4->text(&root2_str);
+        root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
+        ui->lineEdit_6->text().append(root1_str);
+
+        root2_str = QString::number(root2,'g',6); // до 6 знаков после запятой
+        ui->lineEdit_4->text().append(&root2_str);
     }
-    else {QDebug("You triggered a bug - shouldn't be printed!");}
+    else {QString bugtriggered = "You triggered a bug - shouldn't be printed!";
+          qDebug() << bugtriggered;
+    }
 }
 
 
 void MainWindow::on_lineEdit_5_textChanged(const QString &arg1)
 {
     return;
+}
+
+
+void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
+{
+    this->A=arg1;
 }
 
