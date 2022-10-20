@@ -29,6 +29,10 @@ private slots:
 
     void on_solutionLine_textChanged(const QString &arg1);
 
+    void on_firstRoot_textChanged(const QString &arg1);
+
+    void on_secondRoot_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     double A;

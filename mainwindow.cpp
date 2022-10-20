@@ -68,38 +68,42 @@ int MainWindow::calcSquareEq(int a, int b, int c, double* x1, double* x2) {
 void MainWindow::on_pushButton_clicked()
 {
     double root1, root2;
-    QString root1_str, root2_str, no_roots;
-    QString single_root = "только один корень";
-    int d = 0;
+    QString root1_str, root2_str;
+    const QString no_roots = "Действительных решений нет/Бессмысленно";
+    const QString single_root = "только один корень";
+    const QString na="n/a";
+    const QString two_roots = "два корня";
+    //int breakpoint = 0;
 
     // это основной метод в котором идёт обработка результатов рассчета
     int retval = calcSquareEq(A,B,C,&root1,&root2);
     if (retval == -1) {
-       no_roots = "Решений нет/Бессмысленно";
-        ui->lineEdit_4->text().append(no_roots);
+        ui->solutionLine->setText(no_roots);
+        ui->firstRoot->setText(na);
+        ui->secondRoot->setText(na);
     }
     else if (retval == 0) {
         root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
-        this->setWindowTitle(root1_str);
 
-        ui->lineEdit_6->text().append(root1_str); // не работает хотя собирается. дебажить при a=1 и всё остальное 0
-        ui->solutionLine->setText(single_root);   // не работает хотя собирается
-        ui->solutionLine->setText(QString::number(0, 10)); // работает!
-        d=1;
+        ui->solutionLine->setText(single_root);
+        ui->firstRoot->setText(root1_str);
+        ui->secondRoot->setText(na);
     }
     else if(retval == 1) {
+        ui->solutionLine->setText(two_roots);
+
         root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
-        ui->lineEdit_6->text().append(root1_str);
+        ui->firstRoot->setText(root1_str);
 
         root2_str = QString::number(root2,'g',6); // до 6 знаков после запятой
-        ui->lineEdit_4->text().append(&root2_str);
+        ui->secondRoot->setText(root2_str);
     }
-    else {QString bugtriggered = "You triggered a bug - shouldn't be printed!";
+    else {QString bugtriggered = "You triggered a bug - this message shouldn't be printed!";
+          ui->solutionLine->setText(bugtriggered);
           qDebug() << bugtriggered;
+
     }
 }
-
-
 
 
 void MainWindow::on_exitButton_clicked()
@@ -110,7 +114,18 @@ void MainWindow::on_exitButton_clicked()
 
 void MainWindow::on_solutionLine_textChanged(const QString &arg1)
 {
- //   ui->solutionLine->setText(QString::number(val, base));
     ui->solutionLine->setText(arg1);
+}
+
+
+void MainWindow::on_firstRoot_textChanged(const QString &arg1)
+{
+    ui->firstRoot->setText(arg1);
+}
+
+
+void MainWindow::on_secondRoot_textChanged(const QString &arg1)
+{
+    ui->secondRoot->setText(arg1);
 }
 
