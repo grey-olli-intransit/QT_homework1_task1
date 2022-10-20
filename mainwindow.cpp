@@ -82,8 +82,9 @@ void MainWindow::on_pushButton_clicked()
         root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
         this->setWindowTitle(root1_str);
 
-        ui->lineEdit_6->text().append(root1_str);
-        ui->solutionLine->setText(single_root);
+        ui->lineEdit_6->text().append(root1_str); // не работает хотя собирается. дебажить при a=1 и всё остальное 0
+        ui->solutionLine->setText(single_root);   // не работает хотя собирается
+        ui->solutionLine->setText(QString::number(0, 10)); // работает!
         d=1;
     }
     else if(retval == 1) {
