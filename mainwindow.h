@@ -3,10 +3,6 @@
 
 #include <QMainWindow>
 
-static QString a="0.0";
-static QString b="0.0";
-static QString c="0.0";
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,17 +16,18 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_lineEdit_textEdited(const QString &arg1);
-
-    void on_lineEdit_2_textEdited(const QString &arg1);
-
-    void on_lineEdit_3_textEdited(const QString &arg1);
 
     void on_pushButton_clicked();
 
-    void on_lineEdit_5_textChanged(const QString &arg1);
-
     void on_doubleSpinBox_valueChanged(double arg1);
+
+    void on_doubleSpinBox_2_valueChanged(double arg1);
+
+    void on_doubleSpinBox_3_valueChanged(double arg1);
+
+    void on_exitButton_clicked();
+
+    void on_solutionLine_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

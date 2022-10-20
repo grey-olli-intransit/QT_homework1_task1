@@ -3,6 +3,8 @@
 
 #include "math.h"
 #include <QDebug>
+#include <QCoreApplication>
+#include <QWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,31 +18,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
 {
-    a = ui->lineEdit->text();
-
-    this->A = a.toDouble();
-
+    this->A=arg1;
 }
 
-
-void MainWindow::on_lineEdit_2_textEdited(const QString &arg1)
+void MainWindow::on_doubleSpinBox_2_valueChanged(double arg1)
 {
-    b = ui->lineEdit->text();
-    this->B = b.toDouble();
+    this->B = arg1;
 }
 
-
-void MainWindow::on_lineEdit_3_textEdited(const QString &arg1)
+void MainWindow::on_doubleSpinBox_3_valueChanged(double arg1)
 {
-    c = ui->lineEdit->text();
-    this->C = c.toDouble();
+    this->C = arg1;
 }
 
 // эта функция взята из Си, из дз что я когда-то делал. Теперь это С++ метод
-int calcSquareEq(int a, int b, int c, double* x1, double* x2) {
+int MainWindow::calcSquareEq(int a, int b, int c, double* x1, double* x2) {
     if(a==0 && b!=0) {
         // вырождение до линейного уравнения, один корень x=-c/b
         *x1=(double)-c/b;
@@ -61,7 +55,7 @@ int calcSquareEq(int a, int b, int c, double* x1, double* x2) {
     }
     if ((b*b-4*a*c) == 0) {
         // единственный корень
-    *x1 = -b/(2*a);
+        *x1 = -b/(2*a);
         return 0;
     }
     // в остальных случаях два корня:
@@ -74,20 +68,23 @@ int calcSquareEq(int a, int b, int c, double* x1, double* x2) {
 void MainWindow::on_pushButton_clicked()
 {
     double root1, root2;
-    qreal root1_aprox, root2_aprox;
     QString root1_str, root2_str, no_roots;
+    QString single_root = "только один корень";
+    int d = 0;
 
     // это основной метод в котором идёт обработка результатов рассчета
     int retval = calcSquareEq(A,B,C,&root1,&root2);
     if (retval == -1) {
        no_roots = "Решений нет/Бессмысленно";
-        ui->lineEdit_5->text().clear();
-        ui->lineEdit_5->text().append(no_roots);
+        ui->lineEdit_4->text().append(no_roots);
     }
     else if (retval == 0) {
         root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
+        this->setWindowTitle(root1_str);
+
         ui->lineEdit_6->text().append(root1_str);
-        ui->lineEdit_4->text().append("только один корень");
+        ui->solutionLine->setText(single_root);
+        d=1;
     }
     else if(retval == 1) {
         root1_str = QString::number(root1,'g',6); // до 6 знаков после запятой
@@ -102,14 +99,17 @@ void MainWindow::on_pushButton_clicked()
 }
 
 
-void MainWindow::on_lineEdit_5_textChanged(const QString &arg1)
+
+
+void MainWindow::on_exitButton_clicked()
 {
-    return;
+    QCoreApplication::exit(0);
 }
 
 
-void MainWindow::on_doubleSpinBox_valueChanged(double arg1)
+void MainWindow::on_solutionLine_textChanged(const QString &arg1)
 {
-    this->A=arg1;
+ //   ui->solutionLine->setText(QString::number(val, base));
+    ui->solutionLine->setText(arg1);
 }
 
